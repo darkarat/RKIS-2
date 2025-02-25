@@ -13,7 +13,7 @@ public class LimitedSizeStack<T>
 	{
 		if (undoLimit <= 0)
             {
-                throw new ArgumentException("size must be greater than 0.", nameof(undoLimit));
+                throw new ArgumentException("size must be greater than 0.");
             }
 		_size = undoLimit;
 	}
