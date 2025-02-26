@@ -11,10 +11,7 @@ public class LimitedSizeStack<T>
 	// принимает размер стека
 	public LimitedSizeStack(int undoLimit)
 	{
-		if (undoLimit <= 0)
-            {
-                throw new ArgumentException("size must be greater than 0.");
-            }
+		
 		_size = undoLimit;
 	}
 
