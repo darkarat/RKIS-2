@@ -11,18 +11,26 @@ public class LimitedSizeStack<T>
 	// принимает размер стека
 	public LimitedSizeStack(int undoLimit)
 	{
-		
+		if (undoLimit < 0)
+            {
+                throw new ArgumentException("size must be greater than or equal to 0.");
+            }
 		_size = undoLimit;
 	}
 
 	// Метод для добавления элемента в стек
 	public void Push(T item)
 	{
+		if (_size == 0)
+    	{
+        	return; // игнор операций если undoLimit равен нулю
+    	}
+
 		if (_items.Count == _size)
-            {
-                _items.RemoveFirst(); // Если стек достиг макс размера, удаляет самый глубокий элемент (первый)
-            }
-            _items.AddLast(item); // Добавляем новый элемент в конец списка
+        {
+            _items.RemoveFirst(); // Если стек достиг макс размера, удаляет самый глубокий элемент (первый)
+        }
+        _items.AddLast(item); // Добавляем новый элемент в конец списка
 	}
 
 	// Метод для извлечения элемента из стека
