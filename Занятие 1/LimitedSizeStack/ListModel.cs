@@ -43,7 +43,7 @@ public class ListModel<TItem>
 
     public bool CanUndo()
     {
-        return _undoStack.Count > 0; //проверка есть ли действие для отмены
+        return UndoLimit > 0 && _undoStack.Count > 0; //проверка есть ли действие для отмены
     }
 
     public void Undo() //извлечение последнего действие и его удаление
