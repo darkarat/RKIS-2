@@ -15,9 +15,9 @@ public class ListModel<TItem>
 
     public ListModel(List<TItem> items, int undoLimit)
     {
-        if (undoLimit <= 0)
+        if (undoLimit < 0)
         {
-            throw new ArgumentException("undoLimit must be greater than 0.");
+            throw new ArgumentException("undoLimit must be greater than or equal to 0.");
         }
         Items = items;
         UndoLimit = undoLimit;
