@@ -17,7 +17,7 @@ public class LimitedSizeStack_PerformanceTest
 		Assert.AreEqual(undoLimit, stack.Count);
 	}
 
-	[Test, Timeout(500), Description("Pop должен работать быстро, даже при большом лимите на размер стека")]
+	[Test, Timeout(500), Description("Pop должен работать быстро, даже при большом лимите на размер стека и котики")]
 	public void Pop_ShouldTakeConstantTime()
 	{
 		var undoLimit = 200000;
