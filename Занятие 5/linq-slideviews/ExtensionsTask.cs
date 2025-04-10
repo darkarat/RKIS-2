@@ -95,6 +95,6 @@ namespace linq_slideviews
                     previous = current;
                 }
             }
-        }
+        } 
     }
 }

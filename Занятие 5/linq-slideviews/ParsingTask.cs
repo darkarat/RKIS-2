@@ -73,5 +73,5 @@ namespace linq_slideviews
                     };
                 });
         }
-    }
+    } 
 }
