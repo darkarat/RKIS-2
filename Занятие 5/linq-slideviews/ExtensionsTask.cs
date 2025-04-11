@@ -2,99 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace linq_slideviews
+namespace linq_slideviews;
+
+public static class ExtensionsTask
 {
-    public enum SlideType
+    /// <summary>
+    /// Медиана списка из нечетного количества элементов — это серединный элемент списка после сортировки.
+    /// Медиана списка из четного количества элементов — это среднее арифметическое 
+    /// двух серединных элементов списка после сортировки.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Если последовательность не содержит элементов</exception>
+    public static double GetMedian(this IEnumerable<double> items)
     {
-        Theory,
-        Exercise,
-        Quiz
-    }
-
-    public class VisitRecord
-    {
-        public int UserId { get; set; }
-        public int SlideId { get; set; }
-        public TimeSpan Time { get; set; }
-        public DateTime Date { get; set; }
-    }
-
-    public class SlideRecord
-    {
-        public int SlideId { get; set; }
-        public string UnitTitle { get; set; }
-        public SlideType SlideType { get; set; }
-    }
-
-    public static class StatisticsTask
-    {
-        public static double GetMedianTimePerSlide(IEnumerable<VisitRecord> visits, IDictionary<int, SlideRecord> slides, SlideType slideType)
+        var sortedList = items.OrderBy(x => x).ToList();
+        if (sortedList.Count == 0)
         {
-            // Фильтруем записи посещений по типу слайда
-            var filteredVisits = visits
-                .Where(v => slides.TryGetValue(v.SlideId, out var slide) && slide.SlideType == slideType)
-                .GroupBy(v => v.SlideId)
-                .Select(g => g.Select(v => v.VisitTime).ToList())
-                .Where(times => times.Count > 1) // Убираем группы с менее чем двумя записями
-                .Select(times =>
-                {
-                    // Вычисляем время между первым и последним посещением
-                    var totalMinutes = (times.Max() - times.Min()).TotalMinutes;
-                    return totalMinutes / times.Count; // Среднее время на слайд
-                })
-                .OrderBy(t => t)
-                .ToList();
+            throw new InvalidOperationException("Sequence contains no elements");
+        }
 
-            // Вычисляем медиану
-            if (filteredVisits.Count == 0) return 0;
-
-            int midIndex = filteredVisits.Count / 2;
-            return filteredVisits.Count % 2 == 0 ? (filteredVisits[midIndex - 1] + filteredVisits[midIndex]) / 2 : filteredVisits[midIndex];
+        int middleIndex = sortedList.Count / 2;
+        if (sortedList.Count % 2 == 1)
+        {
+            return sortedList[middleIndex];
+        }
+        else
+        {
+            return (sortedList[middleIndex - 1] + sortedList[middleIndex]) / 2.0;
         }
     }
 
-    public static class ExtensionsTask
+    /// <returns>
+    /// Возвращает последовательность, состоящую из пар соседних элементов.
+    /// Например, по последовательности {1,2,3} метод должен вернуть две пары: (1,2) и (2,3).
+    /// </returns>
+    public static IEnumerable<(T First, T Second)> GetBigrams<T>(this IEnumerable<T> items)
     {
-        // Метод для вычисления медианы из последовательности чисел
-        public static double GetMedian(this IEnumerable<double> items)
+        using var enumerator = items.GetEnumerator();
+        if (!enumerator.MoveNext())
         {
-            if (items == null || !items.Any())
-            {
-                throw new InvalidOperationException("Последовательность не должна быть пустой.");
-            }
-
-            var sortedItems = items.OrderBy(x => x).ToList();
-            int count = sortedItems.Count;
-
-            if (count % 2 == 1) // Нечетное количество элементов
-            {
-                return sortedItems[count / 2];
-            }
-            else // Четное количество элементов
-            {
-                return (sortedItems[(count / 2) - 1] + sortedItems[count / 2]) / 2.0;
-            }
+            yield break;
         }
 
-        // Метод для получения биграмм из последовательности элементов
-        public static IEnumerable<(T First, T Second)> GetBigrams<T>(this IEnumerable<T> items)
+        T previous = enumerator.Current;
+        while (enumerator.MoveNext())
         {
-            using (var enumerator = items.GetEnumerator())
-            {
-                if (!enumerator.MoveNext())
-                {
-                    yield break; // Если нет элементов, выходим
-                }
-
-                T previous = enumerator.Current;
-
-                while (enumerator.MoveNext())
-                {
-                    T current = enumerator.Current;
-                    yield return (previous, current);
-                    previous = current;
-                }
-            }
-        } 
+            yield return (previous, enumerator.Current);
+            previous = enumerator.Current;
+        }
     }
 }

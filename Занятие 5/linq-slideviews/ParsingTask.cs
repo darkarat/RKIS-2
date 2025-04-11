@@ -2,76 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace linq_slideviews
+namespace linq_slideviews;
+
+public class ParsingTask
 {
-    public enum SlideType
+    /// <param name="lines">все строки файла, которые нужно распарсить. Первая строка заголовочная.</param>
+    /// <returns>Словарь: ключ — идентификатор слайда, значение — информация о слайде</returns>
+    /// <remarks>Метод должен пропускать некорректные строки, игнорируя их</remarks>
+    public static IDictionary<int, SlideRecord> ParseSlideRecords(IEnumerable<string> lines)
     {
-        Theory,
-        Exercise,
-        Quiz
+        return lines
+            .Skip(1)
+            .Select(line => line.Split(';'))
+            .Where(parts => parts.Length == 3 
+                           && int.TryParse(parts[0], out _)
+                           && Enum.TryParse(parts[2], true, out SlideType _))
+            .Select(parts => new
+            {
+                Id = int.Parse(parts[0]),
+                Title = parts[1],
+                Type = (SlideType)Enum.Parse(typeof(SlideType), parts[2], true)
+            })
+            .ToDictionary(x => x.Id, x => new SlideRecord(x.Id, x.Type, x.Title));
     }
 
-    public class SlideRecord
+    /// <param name="lines">все строки файла, которые нужно распарсить. Первая строка — заголовочная.</param>
+    /// <param name="slides">Словарь информации о слайдах по идентификатору слайда. 
+    /// Такой словарь можно получить методом ParseSlideRecords</param>
+    /// <returns>Список информации о посещениях</returns>
+    /// <exception cref="FormatException">Если среди строк есть некорректные</exception>
+    public static IEnumerable<VisitRecord> ParseVisitRecords(
+        IEnumerable<string> lines, IDictionary<int, SlideRecord> slides)
     {
-        public int SlideId { get; set; }
-        public string UnitTitle { get; set; }
-        public SlideType SlideType { get; set; }
-    }
+        return lines
+            .Skip(1)
+            .Select((line, index) =>
+            {
+                var parts = line.Split(';');
+                if (parts.Length != 4)
+                    throw new FormatException($"Wrong line [{line}]");
 
-    public class VisitRecord
-    {
-        public int UserId { get; set; }
-        public int SlideId { get; set; }
-        public DateTime VisitTime { get; set; }
-    }
-
-    public class ParsingTask
-    {
-        // Метод для парсинга записей слайдов
-        public static IDictionary<int, SlideRecord> ParseSlideRecords(IEnumerable<string> lines)
-        {
-            return lines
-                .Skip(1) // Пропускаем заголовок
-                .Select(line => line.Split(';'))
-                .Where(parts => parts.Length == 3 &&
-                                int.TryParse(parts[0], out int slideId) &&
-                                !string.IsNullOrWhiteSpace(parts[1]) &&
-                                Enum.TryParse<SlideType>(parts[2], true, out var slideType))
-                .ToDictionary(
-                    parts => int.Parse(parts[0]),
-                    parts => new SlideRecord
-                    {
-                        SlideId = int.Parse(parts[0]),
-                        UnitTitle = parts[1],
-                        SlideType = slideType
-                    });
-        }
-
-        // Метод для парсинга записей посещений
-        public static IEnumerable<VisitRecord> ParseVisitRecords(
-            IEnumerable<string> lines, IDictionary<int, SlideRecord> slides)
-        {
-            return lines
-                .Skip(1) // Пропускаем заголовок
-                .Select(line => line.Split(';'))
-                .Select(parts =>
+                if (!int.TryParse(parts[0], out int userId) ||
+                    !int.TryParse(parts[1], out int slideId) ||
+                    !slides.ContainsKey(slideId) ||
+                    !DateTime.TryParse(parts[3], out DateTime date) ||
+                    !TimeSpan.TryParse(parts[2], out TimeSpan time))
                 {
-                    if (parts.Length != 4 ||
-                        !int.TryParse(parts[0], out int userId) ||
-                        !int.TryParse(parts[1], out int slideId) ||
-                        !DateTime.TryParse($"{parts[3]} {parts[2]}", out DateTime visitTime) ||
-                        !slides.ContainsKey(slideId))
-                    {
-                        throw new FormatException("Некорректная строка: " + line);
-                    }
+                    throw new FormatException($"Wrong line [{line}]");
+                }
 
-                    return new VisitRecord
-                    {
-                        UserId = userId,
-                        SlideId = slideId,
-                        VisitTime = visitTime
-                    };
-                });
-        }
-    } 
+                return new VisitRecord(
+                    userId,
+                    slideId,
+                    date.Date.Add(time),
+                    slides[slideId].SlideType);
+            });
+    }
 }

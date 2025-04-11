@@ -11,6 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Занятие 3", "Зан�
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Занятие 4", "Занятие 4", "{C24F4EFD-F2DA-8F0C-4013-EA21123628AB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Занятие 5", "Занятие 5", "{E8FD3442-CE04-EA30-B96D-7A9BA2D52275}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Занятие 6", "Занятие 6", "{13CB5CA5-160C-EE47-97A5-A0DE50771A12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Занятие 7", "Занятие 7", "{2AB60480-BCC5-88CA-A702-7453A2A07BB7}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LimitedSizeStack", "Занятие 1\LimitedSizeStack\LimitedSizeStack.csproj", "{6F465A6C-F08D-5BA9-9100-1AF23DCF0980}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yield-return-smooth", "Занятие 2\Smooth\yield-return-smooth.csproj", "{70854F6E-E09D-C387-EE21-5E6D38935767}"
@@ -18,6 +24,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hashes-readonly-bytes", "Занятие 3\readonly-bytes\hashes-readonly-bytes.csproj", "{CDEBA612-F984-9AA4-7BBE-C6880782ACAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters", "Занятие 4\Filters\Filters.csproj", "{D646B665-D001-2A69-838F-FD1D48BA33FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "linq-slideviews", "Занятие 5\linq-slideviews\linq-slideviews.csproj", "{9ECB503A-5D40-711F-0D48-1D3C582E2FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank", "Занятие 6\Bank\Bank.csproj", "{8456359A-031C-EFA9-B98F-0A49CBEABCDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cripto-reader", "Занятие 7\cripto-reader\cripto-reader.csproj", "{635D908A-1463-F273-CCE8-83AEA229CEC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +53,18 @@ Global
 		{D646B665-D001-2A69-838F-FD1D48BA33FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D646B665-D001-2A69-838F-FD1D48BA33FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D646B665-D001-2A69-838F-FD1D48BA33FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ECB503A-5D40-711F-0D48-1D3C582E2FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ECB503A-5D40-711F-0D48-1D3C582E2FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ECB503A-5D40-711F-0D48-1D3C582E2FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ECB503A-5D40-711F-0D48-1D3C582E2FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8456359A-031C-EFA9-B98F-0A49CBEABCDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8456359A-031C-EFA9-B98F-0A49CBEABCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8456359A-031C-EFA9-B98F-0A49CBEABCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8456359A-031C-EFA9-B98F-0A49CBEABCDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{635D908A-1463-F273-CCE8-83AEA229CEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{635D908A-1463-F273-CCE8-83AEA229CEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{635D908A-1463-F273-CCE8-83AEA229CEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{635D908A-1463-F273-CCE8-83AEA229CEC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,8 +74,11 @@ Global
 		{70854F6E-E09D-C387-EE21-5E6D38935767} = {FA8EB464-3446-3CEE-FD2B-1A4EE0001377}
 		{CDEBA612-F984-9AA4-7BBE-C6880782ACAB} = {7B5A8A50-45BD-9728-59F2-9BA55180C5A5}
 		{D646B665-D001-2A69-838F-FD1D48BA33FD} = {C24F4EFD-F2DA-8F0C-4013-EA21123628AB}
+		{9ECB503A-5D40-711F-0D48-1D3C582E2FEA} = {E8FD3442-CE04-EA30-B96D-7A9BA2D52275}
+		{8456359A-031C-EFA9-B98F-0A49CBEABCDB} = {13CB5CA5-160C-EE47-97A5-A0DE50771A12}
+		{635D908A-1463-F273-CCE8-83AEA229CEC9} = {2AB60480-BCC5-88CA-A702-7453A2A07BB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {005279E6-F5FA-47C9-8B99-0FF57FB53D2D}
+		SolutionGuid = {F088DFBD-420D-4C5B-8C8E-03D56ED77F94}
 	EndGlobalSection
 EndGlobal
