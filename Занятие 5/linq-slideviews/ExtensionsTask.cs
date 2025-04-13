@@ -37,17 +37,20 @@ public static class ExtensionsTask
     /// </returns>
     public static IEnumerable<(T First, T Second)> GetBigrams<T>(this IEnumerable<T> items)
     {
-        using var enumerator = items.GetEnumerator();
-        if (!enumerator.MoveNext())
+        T previous = default;
+        bool isFirst = true;
+        
+        foreach (var current in items)
         {
-            yield break;
-        }
-
-        T previous = enumerator.Current;
-        while (enumerator.MoveNext())
-        {
-            yield return (previous, enumerator.Current);
-            previous = enumerator.Current;
+            if (!isFirst)
+            {
+                yield return (previous, current);
+            }
+            else
+            {
+                isFirst = false;
+            }
+            previous = current;
         }
     }
 }
