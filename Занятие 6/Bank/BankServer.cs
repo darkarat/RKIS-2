@@ -32,8 +32,10 @@ namespace Bank
             if (from.GetBalance() < amount)
                 throw new InvalidOperationException("Insufficient funds");
 
-            await from.WithdrawAsync(amount);
-            await to.DepositAsync(amount);
+            await Task.WhenAll(
+                from.WithdrawAsync(amount),
+                to.DepositAsync(amount)
+            );
         }
 
         public Task<decimal> GetAccountBalanceAsync(Guid accountId)
